@@ -2,7 +2,9 @@ package com.example.quizapp.view
 
 import android.util.Log
 import android.widget.Button
+import android.widget.Space
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -24,7 +26,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -33,19 +37,46 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
+import com.example.quizapp.R
 import com.example.quizapp.components.EmailInput
 import com.example.quizapp.components.PasswordInput
+import com.google.firebase.firestore.auth.User
 
 @Composable
 fun LoginScreen(navController: NavController){
 
+    val showLoginForm= rememberSaveable {
+        mutableStateOf(value = true)
+    }
+
     Surface(modifier = Modifier.fillMaxSize() ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement =Arrangement.Top ) {
             Text(text = "QuizApp", style = MaterialTheme.typography.h3, color = Color.Red.copy(alpha = 0.5f))
+            if(showLoginForm.value){
             UserForm(loading = false, isCreateAccount = false){
-                    email,pasworrd->
-                Log.d("wewqe","ewqewqewq")
+                    email,password->
+            //firebase
+            }}
+            else{
+                UserForm(loading = false, isCreateAccount = true){
+                    email,password->
+                    //firebase
+                }
             }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Row (modifier = Modifier.padding(top=50.dp), horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically){
+                val text = if(showLoginForm.value)"Register" else "Login"
+            Text(text = "New user??")
+            Text(text,
+            modifier = Modifier
+                .clickable {
+                    showLoginForm.value = !showLoginForm.value
+                }
+                .padding(start = 8.dp),
+            fontWeight = FontWeight.Bold,color=MaterialTheme.colors.primaryVariant)
         }
     }
 
@@ -82,6 +113,7 @@ onDone:(String,String)-> Unit= {email,pwd ->}){
     Column(
         modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if(isCreateAccount) Text(text = "Please enter a valid email address and password", modifier = Modifier.padding(4.dp))else Text(text = "")
     EmailInput(emailState = email, enabled = !loading, onAction = KeyboardActions {
         passwordFocusRequest.requestFocus()
     })
@@ -100,6 +132,7 @@ onDone:(String,String)-> Unit= {email,pwd ->}){
             validinputs=valid
         ){
             onDone(email.value.trim(),password.value.trim())
+            keyboardController?.hide()
         }
     }
 }
