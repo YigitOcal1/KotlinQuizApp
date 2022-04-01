@@ -35,15 +35,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import com.example.quizapp.R
 import com.example.quizapp.components.EmailInput
 import com.example.quizapp.components.PasswordInput
+import com.example.quizapp.navigation.QuizScreens
+import com.example.quizapp.viewmodel.LoginScreenViewModel
 import com.google.firebase.firestore.auth.User
 
 @Composable
-fun LoginScreen(navController: NavController){
+fun LoginScreen(navController: NavController,viewModel: LoginScreenViewModel= androidx.lifecycle.viewmodel.compose.viewModel()){
 
     val showLoginForm= rememberSaveable {
         mutableStateOf(value = true)
@@ -56,11 +59,17 @@ fun LoginScreen(navController: NavController){
             UserForm(loading = false, isCreateAccount = false){
                     email,password->
             //firebase
+                viewModel.logIn(email = email, password = password){
+                    navController.navigate((QuizScreens.HomeScreen.name))
+                }
             }}
             else{
                 UserForm(loading = false, isCreateAccount = true){
                     email,password->
-                    //firebase
+                    viewModel.createUserWithEmailAndPassword(email=email, password = password){
+                        navController.navigate(QuizScreens.HomeScreen.name)
+                    }
+
                 }
             }
         }

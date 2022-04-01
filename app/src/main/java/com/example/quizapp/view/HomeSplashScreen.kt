@@ -19,6 +19,7 @@ import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import com.example.quizapp.navigation.QuizScreens
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 
@@ -33,7 +34,15 @@ fun HomeSplashScreen(navController: NavController){
         OvershootInterpolator(8f).getInterpolation(it)
     }))
         delay(2500L)
-        navController.navigate(QuizScreens.LoginScreen.name)
+
+        //if user logged in stay in the session
+       if(FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()){
+            navController.navigate(QuizScreens.LoginScreen.name)
+        }
+        else{
+            navController.navigate(QuizScreens.HomeScreen.name)
+        }
+        //navController.navigate(QuizScreens.LoginScreen.name)
     }
 
     Surface(modifier = Modifier

@@ -1,10 +1,12 @@
 package com.example.quizapp.model
 
-data class UserModel(var userId:String?=null,var email:String?=null,var password:String?=null,var username:String?=null) {
-    fun toMap()= mapOf(
-        "userId" to userId,
-        "email" to email,
-        "password" to password,
-        "username" to username
-    )
+data class UserModel(val id:String?,val userId:String,val displayName:String) {
+
+     fun toMap():MutableMap<String, Any>{
+         return mutableMapOf(
+             "user_id" to this.userId,
+             "display_name" to  this.displayName
+
+         )
+     }
 }
