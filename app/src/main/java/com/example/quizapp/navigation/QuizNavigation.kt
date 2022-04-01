@@ -5,7 +5,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.quizapp.view.*
+import com.example.quizapp.view.create.CreateQuestionScreen
 import com.example.quizapp.view.home.HomeScreen
+import com.example.quizapp.view.quiz.QuizScreen
+
 
 @Composable
 fun QuizNavigation() {
@@ -24,6 +27,12 @@ fun QuizNavigation() {
         }
         composable(QuizScreens.RegisterScreen.name){
             RegisterScreen(navController=navController)
+        }
+        composable(QuizScreens.CreateQuestionScreen.name){
+            CreateQuestionScreen(navController = navController)
+        }
+        composable(QuizScreens.QuizScreen.name){
+            QuizScreen(navController=navController)
         }
     }
 

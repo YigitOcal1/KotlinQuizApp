@@ -2,6 +2,7 @@ package com.example.quizapp.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
@@ -60,6 +61,7 @@ fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
 }
 
 
+
 @Composable
 fun EmailInput(modifier: Modifier = Modifier,
                emailState: MutableState<String>,
@@ -86,10 +88,11 @@ fun InputField(modifier: Modifier = Modifier, valueState: MutableState<String>,
         valueState.value=it},
         label = { Text(text=labelId) },
         singleLine = isSingleLine,
-        textStyle = TextStyle(fontSize = 18.sp, color = MaterialTheme.colors.onBackground),
+        textStyle = TextStyle(fontSize = 14.sp, color = MaterialTheme.colors.onBackground),
         modifier = modifier
-            .padding(bottom = 12.dp, start = 12.dp, end = 12.dp)
-            .fillMaxWidth(),
+            .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+            .fillMaxWidth()
+            ,
         enabled = enabled,
         keyboardOptions = KeyboardOptions(keyboardType=keyboardType, imeAction = imeAction)
 
